@@ -1,0 +1,74 @@
+{
+    "type": "message",
+    "attachments": [
+        {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                "type": "AdaptiveCard",
+                "version": "1.4",
+                "body": [
+                    {
+                        "type": "TextBlock",
+                        "size": "extraLarge",
+                        "weight": "Bolder",
+                        "text": "🚨 Alert 🚨",
+                        "wrap": true
+                    },
+                    {
+                        "type": "TextBlock",
+                        "weight": "Bolder",
+                        "size": "Medium",
+                        "text": "@{triggerBody()?['data']?['essentials']?['alertRule']} - @{triggerBody()?['data']?['customProperties']?['env']}",
+                        "wrap": true
+                    },
+                    {
+                        "type": "TextBlock",
+                        "text": " @{triggerBody()?['data']?['essentials']?['description']}",
+                        "wrap": true
+                    },
+
+                    {
+                        "type": "TextBlock",
+                        "weight": "Bolder",
+                        "text": "Details: ",
+                        "size": "Large",
+                        "wrap": true
+                    },
+                    {
+                        "type": "FactSet",
+                        "facts": [
+                            {
+                                "title": "Dimensions:",
+                                "value": "@{coalesce(triggerBody()?['data']?['alertContext']?['condition']?['allOf'][0]?['dimensions'],'NA')}"
+                            },
+                            {
+                                "title": "Alert Severity:",
+                                "value": "@{triggerBody()?['data']?['essentials']?['severity']}"
+                            },
+                            {
+                                "title": "Fired Time:",
+                                "value": "@{triggerBody()?['data']?['essentials']?['firedDateTime']}"
+                            },
+                            {
+                                "title": "Alerting Window:",
+                                "value": "[ @{triggerBody()?['data']?['alertContext']?['condition']?['windowStartTime']}, @{triggerBody()?['data']?['alertContext']?['condition']?['windowEndTime']}]"
+                            },
+                            {
+                                "title": "Type:",
+                                "value": "@{triggerBody()?['data']?['essentials']?['signalType']}"
+                            }
+                        ]
+                    }
+                ],
+                "actions": [
+                    {
+                        "type": "Action.OpenUrl",
+                        "title": "Open Azure Alert Details",
+                        "url": "https://portal.azure.com/#view/Microsoft_Azure_Monitoring_Alerts/AlertDetails.ReactView/alertId~/@{triggerBody()?['data']?['essentials']?['alertTargetIDs'][0]}%2Fproviders%2FMicrosoft.AlertsManagement%2Falerts%2F@{last(split(triggerBody()?['data']?['essentials']?['alertId'],'/'))}/invokedFrom/CopyLinkFeature"
+                    }
+                ]
+            }
+        }
+    ]
+}

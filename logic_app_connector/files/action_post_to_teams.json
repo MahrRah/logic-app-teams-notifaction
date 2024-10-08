@@ -1,0 +1,20 @@
+{
+    "inputs": {
+        "body": {
+            "messageBody": "<h1 class=\"editor-heading-h1\">Alert 🚨</h1><p class=\"editor-paragraph\"><b><strong class=\"editor-text-bold\">Type:</strong></b> @{triggerBody()?['data']?['essentials']?['alertRule']}<br><br><b><strong class=\"editor-text-bold\">Description: </strong></b>@{triggerBody()?['data']?['essentials']?['description']}<br><b><strong class=\"editor-text-bold\">Environment:</strong></b> @{triggerBody()?['data']?['customProperties']?['env']}<br><b><strong class=\"editor-text-bold\">Links:</strong></b><a href=\"https://portal.azure.com/#view/Microsoft_Azure_Monitoring_Alerts/AlertDetails.ReactView/alertId~/@{triggerBody()?['data']?['essentials']?['alertTargetIDs'][0]}%2Fproviders%2FMicrosoft.AlertsManagement%2Falerts%2F@{last(split(triggerBody()?['data']?['essentials']?['alertId'],'/'))}/invokedFrom/CopyLinkFeature\" class=\"editor-link\"><b><strong class=\"editor-text-bold\"> </strong></b>Azure Alert Details</a></p><h3 class=\"editor-heading-h3\"><br><br><u><span class=\"editor-text-underline\">Details</span></u></h3><p class=\"editor-paragraph\">Dimensions:@{coalesce(triggerBody()?['data']?['alertContext']?['condition']?['allOf'][0]?['dimensions'],'NA')}<br>Alert Severity: @{triggerBody()?['data']?['essentials']?['severity']}<br>Fired Time: @{triggerBody()?['data']?['essentials']?['firedDateTime']}<br>Alerting Window: [ @{triggerBody()?['data']?['alertContext']?['condition']?['windowStartTime']}, @{triggerBody()?['data']?['alertContext']?['condition']?['windowEndTime']}]<br>Type: @{triggerBody()?['data']?['essentials']?['signalType']}</p><br>",
+            "recipient": {
+                "channelId": "19:637b01e8f4a443058cac03891fac1c68@thread.tacv2",
+                "groupId": "ab199e87-ab4b-4581-afad-6e562adad626"
+            }
+        },
+        "host": {
+            "connection": {
+                "name": "@parameters('$connections')['teams']['connectionId']"
+            }
+        },
+        "method": "post",
+        "path": "/beta/teams/conversation/message/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+    },
+    "runAfter": {},
+    "type": "ApiConnection"
+}
